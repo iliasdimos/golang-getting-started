@@ -1,0 +1,350 @@
+Exploring Golang
+Apr 2018
+
+Ilias Dimos
+DevOps Engineer, Pollfish
+iliasdimos@gmail.com
+@dosko64
+
+
+* About
+
+
+* History
+- Announced in November 2009 
+
+- Version 1.0 was released in March 2012
+
+- Created by: 
+
+    Robert Griesemer 
+    Rob Pike
+    Ken Thompson
+    
+- First Commit: 
+.link https://github.com/golang/go/commit/18c5b488a3b2e218c0e0cf2a7d4820d9da93a554
+
+* Why Go ?
+
+    - Language spec is simple and small
+
+    - Clean syntax
+
+    - Compiled language
+
+    - Garbage Collection
+
+    - Performance
+
+    - Concurrency 
+
+    - Deployment 
+      
+
+
+* Hello World
+
+.code code/0/0_hello.go 
+  
+* Directories
+
+- the go tool expects GOPATH variable 
+    $GOPATH/src/hello/main.go
+
+    go run hello
+    go build hello
+    go install hello
+    
+    // Cross Compile
+    GOOS=windows GOARCH=386 go build -o hello.exe hello.go
+
+- Documentation
+    golang.org/doc/ // Golang resources
+    golang.org/pkg/ // Standard lib package docs
+:    // Docs
+    godoc fmt Println
+
+    godoc -http :6060
+    
+    godoc.org
+
+
+
+* Tools
+
+    - Go tooling makes heavy use of terminal
+
+    - Simple editor like VSCode, Vim, Sublime, Atom, Emacs
+
+
+* Variables and Declarations
+
+
+A name of a memory location used to store a value of a specific type
+
+    var name type // Declare a variable and set it to it's zero value
+    a := 10 // Declare a variable and initialize it
+
+- Naming Variables 
+
+    - Start with a letter, contains letters, numbers or underscore symbol
+    - camelCase is prefered
+    - Name size is relevant to the scope of the variable
+
+- Constants 
+
+    Like variables, whose values cannot change later, 
+    reuse common values in a program 
+
+    const pi = 3.14 
+
+
+
+* Standard types 
+- Numbers
+    int8, int16, int32, int64, int
+    uint8, uint16, uint32, uint64, uint
+    float32, float64
+    complex64, complex128
+    byte (alias of uint8)
+    rune (alias of int32)
+- Strings
+    Use double quotes ""  or backticks ``
+- Booleans 
+    true / false
+
+    Operations:
+    &&  and
+    ||  or
+    !   not
+
+
+* Conditional Statements: 
+- if 
+            if i % 2 == 0 {
+                fmt.Println(i, "even")
+            } else if i % 2 != 0 {
+                fmt.Println(i, "odd")
+            } else {
+                fmt.Println(i, "how did i got here ?")
+            }
+
+- Switch
+    switch i {
+    case 0: fmt.Println("Zero")
+    case 1: fmt.Println("One")
+    case 2: fmt.Println("Two")
+    default: fmt.Println("Unknown Number")
+    }
+
+
+* Loops
+
+Only one type of Loop in Go, for statement
+
+    i := 1
+    for i <= 10 {
+        fmt.Println(i)
+        i = i + 1
+    }
+
+: Common Case, check scope
+
+    for i := 1; i <= 10; i++ {
+        fmt.Println(i)
+    }
+
+: Infinite Loop
+    for {
+        err:= DoYourThing()
+        if err!= nil{
+            break // continue // return err
+        }
+    }
+: Range
+    for _, k := range []int{2, 3, 4} {
+        fmt.Println(k)
+    }
+
+
+
+* Functions
+
+    func sayHello() {
+        fmt.Println("Hello World!")  
+    }
+: Input
+    func greet(name string) {
+        fmt.Println("Hello " + name)
+    }
+: Multiple Returns
+    func splitString(s string) (string, error) {
+        v := strings.Split(s, ":")
+        if len(v) < 3 {
+            return "", errors.New("Not a valid value")
+        }
+        return v[0], nil
+    }
+- Functions are values and can be passed as values too.    
+    hypot := func(x, y float64) float64 {
+                return math.Sqrt(x*x + y*y)
+            }
+    hypot(5, 12)
+
+
+* Defer statement
+
+- A defer statement defers the execution of a function until the surrounding function returns. 
+- Is often used with operations like the following to ensure that resources are released in all cases
+
+    open and close 
+    connect and disconnect
+    lock and unlock 
+
+.play code/4/4_defer.go
+
+
+
+* Types (part 2)
+
+Pointers
+
+Arrays 
+
+Slices
+
+Map
+
+Structs 
+
+Interfaces
+
+
+
+* Pointers
+
+Go has pointers. 
+A pointer holds the memory address of a value. 
+
+*P is a pointer to a P value. Its zero value is nil. 
+
+.play code/5/5_pointers.go
+
+* Arrays
+- Have a fixed sized, They can’t grow.
+- Rarely used. Instead use slices
+- Zero value is an array where all values have zero value.
+- Good for speed because values are stored in memory consecutively.
+- Passed by Value.
+
+    a := [2]int{65, 66} // array of 2 ints
+: Access element 
+    fmt.Printf("a[2]: %d \n", a[2])
+: Set element 
+    a[1] = -5
+: multi-dimentions
+    multiDimArray := [2][3]int{[3]int{1, 2, 3}, [3]int{4, 5, 6}}
+    // [lines][columns]
+
+
+* Slices
+- A slice is a view into a fixed size array
+- Length (number of elements) and Capacity (How many can have)
+- The difference between capacity and length is how many elements we can append to a slice before we have to re-allocate the underlying array.
+- Zero value of a slice is nil.
+- Can contain any type, including slices
+- Appending elements to the slice is done with the *append* keyword
+- If the backing array is too small to fit all the given values a bigger array will be allocated. 
+    
+    a := make([]int, 5)  // len(a)=5
+    a = append(a, 5)
+
+
+
+* Maps 
+
+- Maps keys to values
+    var m map[string]int // a zero value map is nil, has no keys and we cannot add keys 
+    m := make(map[string]int) // we have to init a map 
+
+- The zero value of a map is nil. A nil map has no keys, nor can keys be added.
+
+- The make function returns a map of the given type, initialized and ready for use. 
+
+    m[key] = elem
+
+    elem := m[key]
+
+    delete(m, key)
+
+    elem, ok := m[key]
+
+
+* Structs
+
+- A collection of fields
+
+.code code/1/1_struct.go /^type Employee/,/^}/
+
+- You can define methods on types. A method is a function with a special receiver argument
+
+    func (e *Employee) ChangeAddress(addr string) {
+        e.Address = addr
+    }
+
+* Embedding 
+
+.play code/6/6_embed.go
+
+* Interfaces
+
+- An interface is an abstract type.
+- A named collection of methods, but also a variable type.
+
+- Specifies a behevior our struct need to have in order to be used where this behavior is needed
+
+- As a result: 
+    - Types are made for sharing state 
+    - Intefaces are made for sharing behavior 
+
+
+Examples: 
+.link https://play.golang.org/p/r6to0aMm6I Grouping by state
+
+.link https://play.golang.org/p/yOj1zJCRlj Grouping by Behavior
+
+
+* Concurrency
+
+- Concurrency in Go is the ability for functions to run independent of each other
+- By using Goroutines
+- Based on the Communicating Sequential Processes model or CSP
+- The communications betweend goroutins happens with the use of Channels 
+
+- The keyword *go* before a function call, starts a new goroutine running that function.
+
+    go func(x, y)
+
+    // Create a channel of integers 
+    c := make(chan int)
+
+
+* Concurrency Example 1
+
+.play code/7/7_conc_nowait.go
+
+* Concurrency Example 2
+
+.play code/8/8_conc_chan.go
+
+* Reading Material
+
+.link https://golang.org/ref/spec Go Language Specification
+.link https://tour.golang.org  A Tour of Go
+
+
+* References
+.link https://golang.org/ref/spec Go Language Specification
+.link https://tour.golang.org  A Tour of Go
+.link https://github.com/ardanlabs/gotraining Go Training by Ardanlabs
+
