@@ -2,7 +2,8 @@ Exploring Golang
 Apr 2018
 
 Ilias Dimos
-DevOps Engineer, Pollfish
+DevOps Engineer
+Pollfish
 iliasdimos@gmail.com
 @dosko64
 
@@ -11,24 +12,29 @@ iliasdimos@gmail.com
 
 
 * History
-- Announced in November 2009 
 
-- Version 1.0 was released in March 2012
-
-- Created by: 
+- Started in 2007 by : 
 
     Robert Griesemer 
     Rob Pike
     Ken Thompson
-    
-- First Commit: 
-.link https://github.com/golang/go/commit/18c5b488a3b2e218c0e0cf2a7d4820d9da93a554
+
+- Announced in November 2009 
+    Opensourced from the start
+
+- Go1 was released in March 2012
+    Mature for production 
+    Backwards compatibility promise
+
+: - First Commit: 
+: .link https://github.com/golang/go/commit/18c5b488a3b2e218c0e0cf2a7d4820d9da93a554
+
+- History
+.link https://commandcenter.blogspot.gr/2017/09/go-ten-years-and-climbing.html
+
+
 
 * Why Go ?
-
-    - Language spec is simple and small
-
-    - Clean syntax
 
     - Compiled language
 
@@ -38,58 +44,26 @@ iliasdimos@gmail.com
 
     - Concurrency 
 
-    - Deployment 
-      
+    - Memory Safe
 
+    - Language spec is simple and small
+
+    - Clean syntax
+
+    - One binary artifact
 
 * Hello World
 
+1.0
 .code code/0/0_hello.go 
-  
-* Directories
-
-- the go tool expects GOPATH variable 
-    $GOPATH/src/hello/main.go
-
-    go run hello
-    go build hello
-    go install hello
-    
-    // Cross Compile
-    GOOS=windows GOARCH=386 go build -o hello.exe hello.go
-
-- Documentation
-    golang.org/doc/ // Golang resources
-    golang.org/pkg/ // Standard lib package docs
-:    // Docs
-    godoc fmt Println
-
-    godoc -http :6060
-    
-    godoc.org
-
-
-
-* Tools
-
-    - Go tooling makes heavy use of terminal
-
-    - Simple editor like VSCode, Vim, Sublime, Atom, Emacs
-
-
+2.0
+.code code/9/9_web.go
+ 
 * Variables and Declarations
 
 
-A name of a memory location used to store a value of a specific type
-
-    var name type // Declare a variable and set it to it's zero value
+    var name type // Type inferance
     a := 10 // Declare a variable and initialize it
-
-- Naming Variables 
-
-    - Start with a letter, contains letters, numbers or underscore symbol
-    - camelCase is prefered
-    - Name size is relevant to the scope of the variable
 
 - Constants 
 
@@ -97,7 +71,7 @@ A name of a memory location used to store a value of a specific type
     reuse common values in a program 
 
     const pi = 3.14 
-
+: check reference
 
 
 * Standard types 
@@ -107,19 +81,18 @@ A name of a memory location used to store a value of a specific type
     float32, float64
     complex64, complex128
     byte (alias of uint8)
-    rune (alias of int32)
+    rune (char type)
 - Strings
     Use double quotes ""  or backticks ``
 - Booleans 
     true / false
-
-    Operations:
-    &&  and
-    ||  or
-    !   not
+- Error
 
 
 * Conditional Statements: 
+
+: must braces 
+
 - if 
             if i % 2 == 0 {
                 fmt.Println(i, "even")
@@ -130,6 +103,7 @@ A name of a memory location used to store a value of a specific type
             }
 
 - Switch
+: no fallback
     switch i {
     case 0: fmt.Println("Zero")
     case 1: fmt.Println("One")
@@ -191,21 +165,20 @@ Only one type of Loop in Go, for statement
             }
     hypot(5, 12)
 
+: Add closure example
+
+* Errors
 
 * Defer statement
 
 - A defer statement defers the execution of a function until the surrounding function returns. 
-- Is often used with operations like the following to ensure that resources are released in all cases
-
-    open and close 
-    connect and disconnect
-    lock and unlock 
+- Is mostly used for cleanup operations 
 
 .play code/4/4_defer.go
+: file open close snippet
 
 
-
-* Types (part 2)
+* Compound Types
 
 Pointers
 
@@ -219,6 +192,7 @@ Structs
 
 Interfaces
 
+Channels
 
 
 * Pointers
@@ -227,6 +201,9 @@ Go has pointers.
 A pointer holds the memory address of a value. 
 
 *P is a pointer to a P value. Its zero value is nil. 
+No pointer arithmetic
+
+: Memory safety , slide from rob pike 
 
 .play code/5/5_pointers.go
 
@@ -286,18 +263,21 @@ A pointer holds the memory address of a value.
 
 .code code/1/1_struct.go /^type Employee/,/^}/
 
-- You can define methods on types. A method is a function with a special receiver argument
+- You can define methods on structs. A method is a function with a special receiver argument
 
     func (e *Employee) ChangeAddress(addr string) {
         e.Address = addr
     }
 
-* Embedding 
+* Embedding // Composition 
 
 .play code/6/6_embed.go
 
-* Interfaces
 
+
+
+* Interfaces
+: Examples and snippets needed 
 - An interface is an abstract type.
 - A named collection of methods, but also a variable type.
 
@@ -319,7 +299,7 @@ Examples:
 - Concurrency in Go is the ability for functions to run independent of each other
 - By using Goroutines
 - Based on the Communicating Sequential Processes model or CSP
-- The communications betweend goroutins happens with the use of Channels 
+- The communications betweend goroutines happens with the use of Channels 
 
 - The keyword *go* before a function call, starts a new goroutine running that function.
 
@@ -336,6 +316,14 @@ Examples:
 * Concurrency Example 2
 
 .play code/8/8_conc_chan.go
+
+
+* Packaging
+
+
+* Go tool
+
+
 
 * Reading Material
 
