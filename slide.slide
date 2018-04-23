@@ -88,7 +88,7 @@ Web Hello World
 
     const pi = 3.14 
 
-    iota 
+- iota 
 : Based on Γιώτα
 : iota is an enumerator for const creation
 : a way to generate groups of constants based on expressions
