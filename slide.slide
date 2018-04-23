@@ -7,6 +7,11 @@ Pollfish
 iliasdimos@gmail.com
 @dosko64
 
+Athens Gophers Meetup
+
+
+* 
+.image images/athens_gophers.png
 
 * About
 
@@ -26,9 +31,6 @@ iliasdimos@gmail.com
     Mature for production 
     Backwards compatibility promise
 
-: - First Commit: 
-: .link https://github.com/golang/go/commit/18c5b488a3b2e218c0e0cf2a7d4820d9da93a554
-
 - History
 .link https://commandcenter.blogspot.gr/2017/09/go-ten-years-and-climbing.html
 
@@ -36,21 +38,35 @@ iliasdimos@gmail.com
 
 * Why Go ?
 
-    - Compiled language
+GO is a statically typed, garbage collected, compiled language. 
 
-    - Garbage Collection
+    - Simplicity & Readability 
 
-    - Performance
+    - Consistency
+
+    - Safe
 
     - Concurrency 
 
-    - Memory Safe
+    - Performance
 
-    - Language spec is simple and small
+: - GO is a statically typed, garbage collected, compiled language. 
+: - statically typed but with type inference
+: Language Design in the service of software engineering, not programming language research
+: Go is garbage collected but gives the programmer some tools to control collection overhead,
+: Remove the effort that is spent on memory allocation and freeing.
 
-    - Clean syntax
 
-    - One binary artifact
+: - Simplicity - Language spec is simple and small
+: Simplicity - Clean syntax, only 25 keywords 
+
+: Consistency - 
+
+: - Safe : Type safety, no buffer overflows, no pointer arithmetics
+
+: - Concurrency : built into the language, based on the CSP model
+
+
 
 * Hello World
 
@@ -61,12 +77,12 @@ iliasdimos@gmail.com
  
 * Variables and Declarations
 
-
-    var name type // Type inferance
+    var name string 
+    var num = 5 // Type inferance
     a := 10 // Declare a variable and initialize it
 
 - Constants 
-
+: <--- const
     Like variables, whose values cannot change later, 
     reuse common values in a program 
 
@@ -87,6 +103,7 @@ iliasdimos@gmail.com
 - Booleans 
     true / false
 - Error
+: Error is a type, there are no exceptions 
 
 
 * Conditional Statements: 
@@ -94,16 +111,17 @@ iliasdimos@gmail.com
 : must braces 
 
 - if 
-            if i % 2 == 0 {
-                fmt.Println(i, "even")
-            } else if i % 2 != 0 {
-                fmt.Println(i, "odd")
-            } else {
-                fmt.Println(i, "how did i got here ?")
-            }
+    if i % 2 == 0 {
+        fmt.Println(i, "even")
+    } else if i % 2 != 0 {
+        fmt.Println(i, "odd")
+    } else {
+        fmt.Println(i, "how did i got here ?")
+    }
 
 - Switch
 : no fallback
+: with Fallthrough. When encountered, the next case is entered (even if the expression does not match). 
     switch i {
     case 0: fmt.Println("Zero")
     case 1: fmt.Println("One")
@@ -122,20 +140,20 @@ Only one type of Loop in Go, for statement
         i = i + 1
     }
 
-: Common Case, check scope
+: Common Case, check scope of i
 
     for i := 1; i <= 10; i++ {
         fmt.Println(i)
     }
 
-: Infinite Loop
+: Infinite Loop, need someway to break out 
     for {
-        err:= DoYourThing()
+        err := DoYourThing()
         if err!= nil{
             break // continue // return err
         }
     }
-: Range
+: Range, first var is index 
     for _, k := range []int{2, 3, 4} {
         fmt.Println(k)
     }
@@ -143,15 +161,15 @@ Only one type of Loop in Go, for statement
 
 
 * Functions
-
+: - Simple function
     func sayHello() {
         fmt.Println("Hello World!")  
     }
-: Input
+: -- Input
     func greet(name string) {
         fmt.Println("Hello " + name)
     }
-: Multiple Returns
+: --- Multiple Returns and error
     func splitString(s string) (string, error) {
         v := strings.Split(s, ":")
         if len(v) < 3 {
@@ -159,23 +177,52 @@ Only one type of Loop in Go, for statement
         }
         return v[0], nil
     }
+
+* Functions 
+
 - Functions are values and can be passed as values too.    
     hypot := func(x, y float64) float64 {
                 return math.Sqrt(x*x + y*y)
             }
     hypot(5, 12)
 
-: Add closure example
+- Closures 
+    func intSeq() func() int {
+        i := 0
+        return func() int {
+            i++
+            return i
+        }
+    }
 
 * Errors
+
+- The error type us an Inteface type 
+- nil
+
+Famous last words 
+
+    if err != nil {
+        return err 
+    }
+
+: The built-in type error is an interface type
+: an error may be nil or non-nil, that nil implies success and non-nil implies failure, 
+: and that a non-nil error has an error message string 
+: Go’s does not return exceptions or non ordinary values. 
+: Go programs use ordinary control-flow mechanisms like if and return to respond to errors
+
 
 * Defer statement
 
 - A defer statement defers the execution of a function until the surrounding function returns. 
 - Is mostly used for cleanup operations 
 
-.play code/4/4_defer.go
+.play code/4/4_defer.go  /^func main/,/^}/
+
 : file open close snippet
+
+.code code/4.1/4_defer.go /^func main/,/^}/
 
 
 * Compound Types
@@ -198,27 +245,28 @@ Channels
 * Pointers
 
 Go has pointers. 
-A pointer holds the memory address of a value. 
+
+: A pointer holds the memory address of a value. 
 
 *P is a pointer to a P value. Its zero value is nil. 
+
 No pointer arithmetic
 
-: Memory safety , slide from rob pike 
+: Unlike C, you can NOT perform arithmetic operations on a pointer
+: the lack of pointer arithmetic can simplify the implementation of the garbage collector. 
 
-.play code/5/5_pointers.go
+.play code/5/5_pointers.go  /^func main/,/^}/
 
 * Arrays
 - Have a fixed sized, They can’t grow.
-- Rarely used. Instead use slices
+: - Rarely used. Instead use slices
 - Zero value is an array where all values have zero value.
-- Good for speed because values are stored in memory consecutively.
+: - Good for speed because values are stored in memory consecutively.
 - Passed by Value.
 
     a := [2]int{65, 66} // array of 2 ints
 : Access element 
-    fmt.Printf("a[2]: %d \n", a[2])
-: Set element 
-    a[1] = -5
+    fmt.Println("a[2]:", a[2])
 : multi-dimentions
     multiDimArray := [2][3]int{[3]int{1, 2, 3}, [3]int{4, 5, 6}}
     // [lines][columns]
@@ -226,27 +274,41 @@ No pointer arithmetic
 
 * Slices
 - A slice is a view into a fixed size array
-- Length (number of elements) and Capacity (How many can have)
-- The difference between capacity and length is how many elements we can append to a slice before we have to re-allocate the underlying array.
+- Properties: Length and Capacity
+: - Length (number of elements) and Capacity (How many can have)
+: - The difference between capacity and length is how many elements we can append to a slice before we have to re-allocate the underlying array.
 - Zero value of a slice is nil.
 - Can contain any type, including slices
-- Appending elements to the slice is done with the *append* keyword
+- *make*
+: init with the make keyword
+- *append*
+: Appending elements to the slice is done with the *append* keyword
 - If the backing array is too small to fit all the given values a bigger array will be allocated. 
     
     a := make([]int, 5)  // len(a)=5
     a = append(a, 5)
 
+: <--- examples of parts of slices etc
+    b := a[2:4]
+    c := a[:2]
+    d := a[3:]
+: example:  a[2:4] starting at 2, up to but not 4
 
 
 * Maps 
 
 - Maps keys to values
-    var m map[string]int // a zero value map is nil, has no keys and we cannot add keys 
+- *make*
+: init with the make keyword
+: make returns a map of the given type, initialized and ready for use. 
+
+    var m map[string]int 
     m := make(map[string]int) // we have to init a map 
 
-- The zero value of a map is nil. A nil map has no keys, nor can keys be added.
+- The zero value of a map is nil. 
 
-- The make function returns a map of the given type, initialized and ready for use. 
+: A nil map has no keys, nor can keys be added.
+
 
     m[key] = elem
 
@@ -261,57 +323,96 @@ No pointer arithmetic
 
 - A collection of fields
 
-.code code/1/1_struct.go /^type Employee/,/^}/
-
 - You can define methods on structs. A method is a function with a special receiver argument
+
+.code code/1/1_struct.go /^type Employee/,/^}/
 
     func (e *Employee) ChangeAddress(addr string) {
         e.Address = addr
     }
+: Structs: - A collection of fields
+: Structs are go's approach to object-oriented programming
+: but without any form of type-based inheritance like subclassing, no type hierarchy
+: Methods: You can define methods on structs. A method is a function with a special receiver argument
+: the standard "dot" notation to call the method and the fields of the struct
+: A note on receivers: Pointer or not ?
 
 * Embedding // Composition 
 
 .play code/6/6_embed.go
 
+: 
 
 
 
 * Interfaces
 : Examples and snippets needed 
-- An interface is an abstract type.
-- A named collection of methods, but also a variable type.
+: - An interface is an abstract type.
+- A set of methods, but also a variable type.
 
-- Specifies a behevior our struct need to have in order to be used where this behavior is needed
+- Specifies a behevior 
+: our type/struct need to have in order to be used where this behavior is needed
+: They are made for sharing behavior
+: - As a result: 
+:    - Types are made for sharing state 
+:    - Intefaces are made for sharing behavior 
 
-- As a result: 
-    - Types are made for sharing state 
-    - Intefaces are made for sharing behavior 
+* Example 1 (Bad)
+
+.code code/11/11_a_structs.go
+
+* Example 1 (part 2)
+
+.code code/11/11_state.go /^func main/,/^}/
+: We try to group by state
+: Notes: 
+: * The program never needs to create or solely use a value of type Animal.
+: * The implementation of the Speak method for the Animal type is a generalization.
+: * The Speak method for the Animal type is never going to be called.
 
 
-Examples: 
-.link https://play.golang.org/p/r6to0aMm6I Grouping by state
+* Example 2 (Good)
 
-.link https://play.golang.org/p/yOj1zJCRlj Grouping by Behavior
+.code code/12/12_behavior.go
 
+
+* Example 2 (part 2)
+
+.code code/12/12_main.go /^func main/,/^}/
+: Group by behavior
+: Some guidelines around declaring types:
+: * Declare types that represent something new or unique.
+: * Embed types to reuse existing behaviors you need to satisfy.
+: ***** Question types that are an alias or abstraction for an existing type.
+: * Question types whose sole purpose is to share common state.
+: Intefaces are used for sharing behavior 
 
 * Concurrency
-
+: Fix examples 
 - Concurrency in Go is the ability for functions to run independent of each other
 - By using Goroutines
 - Based on the Communicating Sequential Processes model or CSP
 - The communications betweend goroutines happens with the use of Channels 
 
+: Go routines are very light threads, not actual threads, they are co-routines handled by the go runtime.
+: very light and cheap. One goroutine is cheap, a million is practical.
+
 - The keyword *go* before a function call, starts a new goroutine running that function.
 
     go func(x, y)
-
-    // Create a channel of integers 
-    c := make(chan int)
 
 
 * Concurrency Example 1
 
 .play code/7/7_conc_nowait.go
+
+* Channels 
+- Communication between goroutines by using channels
+- Channels are a type 
+- *make*
+
+    // Create a channel of integers 
+    c := make(chan int)
 
 * Concurrency Example 2
 
@@ -320,19 +421,100 @@ Examples:
 
 * Packaging
 
+- Go program is made up of packages, that starts running in package main.
+
+- Import packages with import paths "fmt" and "math/rand".
+
+    var s = rand.Seed(time.Now().UnixNano())
+
+: By convention, the package name is the same as the last element of the import path. 
+: For instance, the "math/rand" package comprises files that begin with the statement package rand.
+
+- Every Go source file, for instance "encoding/json/json.go", starts with a package clause, like this:
+
+    package json
+
+: where json is the "package name", a simple identifier. Package names are usually concise.
+
+- Outside the stdandard repository, the convention is to place the project or company name at the root of the name space:
+
+    import "google/base/go/log"
+    import "github.com/kubernetes/client-go"
+
+: It's important to recognize that package paths are unique, but there is no such requirement for package names. 
+    import "log"                          // Standard package
+    import googlelog "google/base/go/log" // Google-specific package
+
+
+* Exporting 
+
+- If the initial character is an upper case letter, the identifier is exported (public); otherwise it is not
+
+: This rule applies to variables, types, functions, methods, constants, fields... everything. That's all there is to it. 
+
+: You dont need to look up the declaration to see if something is public or private, that adds to readability
+
+
+
 
 * Go tool
 
+- Having a simple language, enable us for great tooling 
+
+- the go tool expects GOPATH variable 
+    $GOPATH/src/hello/main.go
+
+    go run hello
+    go build hello
+    go install hello
+    
+    // Cross Compile
+    GOOS=windows GOARCH=386 go build -o hello.exe hello.go
+
+- Documentation
+    golang.org/doc/ // Golang resources
+    golang.org/pkg/ // Standard lib package docs
+:    // Docs
+    godoc fmt Println
+    godoc -http :6060
+    godoc.org
 
 
-* Reading Material
+
+* Reading Material and References
+
+.link https://commandcenter.blogspot.gr/2017/09/go-ten-years-and-climbing.html  Go: Ten years and climbing, by Rob Pike
+
+.link https://talks.golang.org/2012/splash.article Go at Google: Language Design in the Service of Software Engineering, by Rob Pike
+
+.link http://nil.csail.mit.edu/6.824/2016/notes/gomem.pdf Go's Memory Model, Russ Cox
+
+.link https://github.com/golang/go/commit/18c5b488a3b2e218c0e0cf2a7d4820d9da93a554 First Commit
 
 .link https://golang.org/ref/spec Go Language Specification
+
 .link https://tour.golang.org  A Tour of Go
 
-
-* References
-.link https://golang.org/ref/spec Go Language Specification
-.link https://tour.golang.org  A Tour of Go
 .link https://github.com/ardanlabs/gotraining Go Training by Ardanlabs
 
+.link https://github.com/golang/go/wiki/CodeReviewComments#receiver-type GoWiki, Receiver Type
+
+
+* Who uses go ?
+
+Docker 
+Kubernetes
+InfluxDB
+Cloudflare
+Gitlab 
+Fastly 
+Digitalocean
+Twitch 
+
+.link https://github.com/golang/go/wiki/GoUsers List here
+
+
+* Community 
+
+: Thanks to everyone that was interested in this event 
+: Stratos for keeping alive google-group and slack channel
