@@ -70,9 +70,9 @@ GO is a statically typed, garbage collected, compiled language.
 
 * Hello World
 
-1.0
+
 .code code/0/0_hello.go 
-2.0
+Web Hello World
 .code code/9/9_web.go
  
 * Variables and Declarations
@@ -108,7 +108,7 @@ GO is a statically typed, garbage collected, compiled language.
 
 * Conditional Statements: 
 
-: must braces 
+: if - must braces 
 
 - if 
     if i % 2 == 0 {
@@ -120,8 +120,8 @@ GO is a statically typed, garbage collected, compiled language.
     }
 
 - Switch
-: no fallback
-: with Fallthrough. When encountered, the next case is entered (even if the expression does not match). 
+: switch: no fallback
+: switch: with Fallthrough. When encountered, the next case is entered (even if the expression does not match). 
     switch i {
     case 0: fmt.Println("Zero")
     case 1: fmt.Println("One")
@@ -147,6 +147,7 @@ Only one type of Loop in Go, for statement
     }
 
 : Infinite Loop, need someway to break out 
+: Infinite loop common use, listening on channels 
     for {
         err := DoYourThing()
         if err!= nil{
@@ -395,7 +396,7 @@ No pointer arithmetic
 - The communications betweend goroutines happens with the use of Channels 
 
 : Go routines are very light threads, not actual threads, they are co-routines handled by the go runtime.
-: very light and cheap. One goroutine is cheap, a million is practical.
+: very light and cheap. "One goroutine is cheap, a million is practical."
 
 - The keyword *go* before a function call, starts a new goroutine running that function.
 
