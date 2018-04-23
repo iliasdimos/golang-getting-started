@@ -87,7 +87,11 @@ Web Hello World
     reuse common values in a program 
 
     const pi = 3.14 
-: check reference
+
+    iota 
+: Based on Γιώτα
+: iota is an enumerator for const creation
+: a way to generate groups of constants based on expressions
 
 
 * Standard types 
