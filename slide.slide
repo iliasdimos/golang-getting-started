@@ -345,9 +345,8 @@ No pointer arithmetic
 
 * Embedding // Composition 
 
-.play code/6/6_embed.go
+.play code/6/6_embed.go /START OMIT/,/END OMIT/
 
-:
 
 
 
