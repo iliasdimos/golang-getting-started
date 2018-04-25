@@ -66,6 +66,7 @@ GO is a statically typed, garbage collected, compiled language.
 
 : - Concurrency : built into the language, based on the CSP model
 
+: It is very actively developed but new features have to really add value to be added to the language.
 
 
 * Hello World
