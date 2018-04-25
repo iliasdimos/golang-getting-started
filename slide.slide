@@ -42,13 +42,13 @@ GO is a statically typed, garbage collected, compiled language.
 
     - Simplicity & Readability 
 
-    - Consistency
-
     - Safe
 
     - Concurrency 
 
     - Performance
+
+    - Batteries Included
 
 : - GO is a statically typed, garbage collected, compiled language. 
 : - statically typed but with type inference
@@ -92,7 +92,11 @@ Web Hello World
 : Based on Γιώτα
 : iota is an enumerator for const creation
 : a way to generate groups of constants based on expressions
-
+    const (
+        Zero iota   // 0
+        One         // 1
+        Two         // 2
+    )
 
 * Standard types 
 - Numbers
@@ -202,7 +206,7 @@ Only one type of Loop in Go, for statement
 
 * Errors
 
-- The error type us an Inteface type 
+- The error type is an Inteface type 
 - nil
 
 Famous last words 
@@ -210,6 +214,9 @@ Famous last words
     if err != nil {
         return err 
     }
+
+
+- Panic and Recover 
 
 : The built-in type error is an interface type
 : an error may be nil or non-nil, that nil implies success and non-nil implies failure, 
@@ -324,9 +331,9 @@ No pointer arithmetic
     elem, ok := m[key]
 
 
-* Structs
+* Custom types and Structs
 
-- A collection of fields
+- A composite type, a collection of fields
 
 - You can define methods on structs. A method is a function with a special receiver argument
 
@@ -335,24 +342,29 @@ No pointer arithmetic
     func (e *Employee) ChangeAddress(addr string) {
         e.Address = addr
     }
+: Custom types, we can define our own basic custom types, 
 : Structs: - A collection of fields
 : Structs are go's approach to object-oriented programming
+: Composition over inheritance
 : but without any form of type-based inheritance like subclassing, no type hierarchy
+: ...
 : Methods: You can define methods on structs. A method is a function with a special receiver argument
 : the standard "dot" notation to call the method and the fields of the struct
 : A note on receivers: Pointer or not ?
 : cannot define new methods on non-local type 
+
+    e:= &Employee{Name: "Bill" }
+    e.ChangeAddress("53rd & 3rd")
 
 * Embedding // Composition 
 
 .play code/6/6_embed.go /START OMIT/,/END OMIT/
 
 
-
-
 * Interfaces
 : Examples and snippets needed 
 : - An interface is an abstract type.
+: When you have a value of an interface type, you know nothing about what it is; you know only what it can do
 - A set of methods, but also a variable type.
 
 - Specifies a behevior 
@@ -361,6 +373,27 @@ No pointer arithmetic
 : - As a result: 
 :    - Types are made for sharing state 
 :    - Intefaces are made for sharing behavior 
+
+    // Writer is the interface that wraps the basic Write method.
+    type Writer interface {
+        // Write writes len(p) bytes from p to the underlying data stream.
+        // It returns the number of bytes written from p (0 <= n <= len(p))
+        // and any error encountered that caused the write to stop early.
+        // Write must return a non-nil error if it returns n < len(p).
+        // Write must not modify the slice data, even temporarily.
+        //
+        // Implementations must not retain p.
+        Write(p []byte) (n int, err error)
+    }
+: Bytecounter, our type satisfies the writer interface 
+
+    type ByteCounter int
+
+    func (c *ByteCounter) Write(p []byte) (int, error) {
+        *c += ByteCounter(len(p)) // convert int to ByteCounter
+        return len(p), nil
+    }
+
 
 * Example 1 (Bad)
 
@@ -406,8 +439,13 @@ No pointer arithmetic
 
     go func(x, y)
 
-
 * Concurrency Example 1
+
+.code code/13/13_conc_1.go /^func f/,/^}/
+
+.play code/13/13_conc_1.go /^func main/,/^}/
+
+* Concurrency Example 2
 
 .play code/7/7_conc_nowait.go
 
