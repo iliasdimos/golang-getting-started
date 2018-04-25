@@ -497,6 +497,13 @@ No pointer arithmetic
 
 : You dont need to look up the declaration to see if something is public or private, that adds to readability
 
+* Testing 
+
+Go has an extended Testing suite 
+
+for Testing and Bencharking 
+
+and tools for coverage and profiling 
 
 
 
