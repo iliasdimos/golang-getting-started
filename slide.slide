@@ -25,7 +25,7 @@ Athens Gophers Meetup
     Ken Thompson
 
 - Announced in November 2009 
-    Opensourced from the start
+    Open-sourced from the start
 
 - Go1 was released in March 2012
     Mature for production 
@@ -79,7 +79,7 @@ Web Hello World
 * Variables and Declarations
 
     var name string 
-    var num = 5 // Type inferance
+    var num = 5 // Type inference
     a := 10 // Declare a variable and initialize it
 
 - Constants 
@@ -207,7 +207,7 @@ Only one type of Loop in Go, for statement
 
 * Errors
 
-- The error type is an Inteface type 
+- The error type is an Interface type 
 - nil
 
 Famous last words 
@@ -280,7 +280,7 @@ No pointer arithmetic
     a := [2]int{65, 66} // array of 2 ints
 : Access element 
     fmt.Println("a[2]:", a[2])
-: multi-dimentions
+: multi-dimensions
     multiDimArray := [2][3]int{[3]int{1, 2, 3}, [3]int{4, 5, 6}}
     // [lines][columns]
 
@@ -368,12 +368,12 @@ No pointer arithmetic
 : When you have a value of an interface type, you know nothing about what it is; you know only what it can do
 - A set of methods, but also a variable type.
 
-- Specifies a behevior 
+- Specifies a behavior 
 : our type/struct need to have in order to be used where this behavior is needed
 : They are made for sharing behavior
 : - As a result: 
 :    - Types are made for sharing state 
-:    - Intefaces are made for sharing behavior 
+:    - Interfaces are made for sharing behavior 
 
     // Writer is the interface that wraps the basic Write method.
     type Writer interface {
@@ -424,14 +424,14 @@ No pointer arithmetic
 : * Embed types to reuse existing behaviors you need to satisfy.
 : ***** Question types that are an alias or abstraction for an existing type.
 : * Question types whose sole purpose is to share common state.
-: Intefaces are used for sharing behavior 
+: Interfaces are used for sharing behavior 
 
 * Concurrency
 : Fix examples 
 - Concurrency in Go is the ability for functions to run independent of each other
 - By using Goroutines
 - Based on the Communicating Sequential Processes model or CSP
-- The communications betweend goroutines happens with the use of Channels 
+- The communications between goroutines happens with the use of Channels 
 
 : Go routines are very light threads, not actual threads, they are co-routines handled by the go runtime.
 : very light and cheap. "One goroutine is cheap, a million is practical."
@@ -480,7 +480,7 @@ No pointer arithmetic
 
 : where json is the "package name", a simple identifier. Package names are usually concise.
 
-- Outside the stdandard repository, the convention is to place the project or company name at the root of the name space:
+- Outside the standard repository, the convention is to place the project or company name at the root of the name space:
 
     import "google/base/go/log"
     import "github.com/kubernetes/client-go"
@@ -502,7 +502,7 @@ No pointer arithmetic
 
 Go has an extended Testing suite 
 
-for Testing and Bencharking 
+for Testing and Benchmarking 
 
 and tools for coverage and profiling 
 
@@ -568,4 +568,4 @@ Twitch
 * Community 
 
 : Thanks to everyone that was interested in this event 
-: Stratos for keeping alive google-group and slack channel
+: Stratos Neiros for keeping alive google-group and slack channel
