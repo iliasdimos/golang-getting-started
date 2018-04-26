@@ -13,8 +13,7 @@ Athens Gophers Meetup
 * 
 .image images/athens_gophers.png
 
-* About
-
+* About 
 
 * History
 
@@ -267,7 +266,7 @@ No pointer arithmetic
 
 : Unlike C, you can NOT perform arithmetic operations on a pointer
 : the lack of pointer arithmetic can simplify the implementation of the garbage collector. 
-
+: * = Dereference 
 .play code/5/5_pointers.go  /^func main/,/^}/
 
 * Arrays
@@ -323,16 +322,16 @@ No pointer arithmetic
 : A nil map has no keys, nor can keys be added.
 
 
-    m[key] = elem
+    m["key"] = elem
 
-    elem := m[key]
+    elem := m["key"]
 
-    delete(m, key)
+    delete(m, "key")
 
-    elem, ok := m[key]
+    elem, ok := m["key"]
 
 
-* Custom types and Structs
+* Structs
 
 - A composite type, a collection of fields
 
@@ -363,17 +362,18 @@ No pointer arithmetic
 
 
 * Interfaces
-: Examples and snippets needed 
+: ...
 : - An interface is an abstract type.
 : When you have a value of an interface type, you know nothing about what it is; you know only what it can do
 - A set of methods, but also a variable type.
 
 - Specifies a behavior 
+: ....
+: specifies a behavior
 : our type/struct need to have in order to be used where this behavior is needed
 : They are made for sharing behavior
-: - As a result: 
-:    - Types are made for sharing state 
-:    - Interfaces are made for sharing behavior 
+: ....
+: Writer interface
 
     // Writer is the interface that wraps the basic Write method.
     type Writer interface {
